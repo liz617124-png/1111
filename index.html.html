@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>極簡黑白設計師名片 - 全新排版</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .card-hover {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px -12px rgba(255, 255, 255, 0.08), 0 0 30px rgba(0, 0, 0, 0.9);
+        }
+    </style>
+</head>
+<body class="h-full bg-neutral-950 text-neutral-100 flex items-center justify-center p-4 selection:bg-white selection:text-black">
+
+    <main class="w-full max-w-lg mx-auto">
+        
+        <!-- Business Card Container with Refined Split Layout -->
+        <div class="card-hover bg-black border border-neutral-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden group">
+            
+            <!-- Subtle background accent element -->
+            <div class="absolute -right-20 -top-20 w-48 h-48 bg-neutral-900 rounded-full blur-3xl group-hover:bg-neutral-800 transition-colors duration-500 pointer-events-none"></div>
+
+            <!-- Card Content Wrapper: Modern Horizontal & Vertical Grid for Dynamic Layout -->
+            <div class="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8">
+                
+                <!-- Left Column: Avatar & Status -->
+                <div class="flex-shrink-0 flex flex-col items-center">
+                    <div class="relative mb-3">
+                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-neutral-900 border border-neutral-700 flex items-center justify-center shadow-inner overflow-hidden group/avatar">
+                            <!-- Monogram -->
+                            <span class="text-3xl sm:text-4xl font-light tracking-widest text-neutral-200 group-hover/avatar:scale-110 transition-transform duration-300">李</span>
+                        </div>
+                        <!-- Status Indicator Dot -->
+                        <span class="absolute bottom-1 right-1 w-3.5 h-3.5 bg-white border-2 border-black rounded-full animate-pulse" title="目前可接案"></span>
+                    </div>
+                    <span class="text-[10px] tracking-widest uppercase text-neutral-500 font-medium">Available</span>
+                </div>
+
+                <!-- Right Column: Info, Bio & Actions -->
+                <div class="flex-1 text-center sm:text-left flex flex-col justify-between">
+                    <div>
+                        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-1">
+                            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                                李致良
+                            </h1>
+                            <span class="text-xs font-mono text-neutral-500 mt-1 sm:mt-0">ID: 0019-Z</span>
+                        </div>
+                        
+                        <p class="text-xs sm:text-sm font-medium tracking-widest uppercase text-neutral-400 mb-4">
+                            資深 UI/UX 設計師與創作者
+                        </p>
+
+                        <!-- Short Bio -->
+                        <p class="text-xs sm:text-sm text-neutral-400 font-light leading-relaxed mb-6">
+                            專注於極簡數位體驗，結合高視覺衝擊力與嚴謹細緻的工藝美學。
+                        </p>
+                    </div>
+
+                    <div class="w-full space-y-3">
+                        <button onclick="handleContactClick()" class="w-full py-3 px-6 rounded-xl bg-white text-black font-semibold text-sm tracking-wide hover:bg-neutral-200 active:scale-[0.98] transition-all duration-200 shadow-lg shadow-white/5 flex items-center justify-center space-x-2">
+                            <span>與我聯繫</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </button>
+                    </div>
+
+                    <!-- Footer Social Links -->
+                    <div class="mt-6 pt-4 border-t border-neutral-900 w-full flex justify-center sm:justify-start space-x-6 text-neutral-500 text-xs tracking-wider">
+                        <a href="#behance" onclick="triggerNotice(event, 'Behance 個人作品集')" class="hover:text-white transition-colors">Behance</a>
+                        <a href="#dribbble" onclick="triggerNotice(event, 'Dribbble 設計專頁')" class="hover:text-white transition-colors">Dribbble</a>
+                        <a href="#twitter" onclick="triggerNotice(event, 'Twitter / X 平台')" class="hover:text-white transition-colors">Twitter</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Custom Modal Message Box (replacing alert()) -->
+    <div id="messageModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300" id="modalContent">
+            <h3 class="text-lg font-semibold text-white mb-2" id="modalTitle">通知</h3>
+            <p class="text-sm text-neutral-400 mb-6" id="modalText">訊息內容。</p>
+            <button onclick="closeModal()" class="w-full py-2.5 rounded-lg bg-neutral-800 text-white font-medium text-sm hover:bg-neutral-700 transition-colors">
+                關閉
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Handle Contact button click
+        function handleContactClick() {
+            showModal('與我聯繫', '感謝您的關注！您可以透過電子郵件直接與我聯繫：zhiliang.li@minimaldesign.studio');
+        }
+
+        // Handle social link clicks gracefully without standard alerts
+        function triggerNotice(event, platformName) {
+            event.preventDefault();
+            showModal('外部連結', '即將前往 ' + platformName + ' 預覽頁面。');
+        }
+
+        // Modal Controller Functions
+        function showModal(title, text) {
+            const modal = document.getElementById('messageModal');
+            const modalContent = document.getElementById('modalContent');
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalText').textContent = text;
+            
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95');
+            modalContent.classList.add('scale-100');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('messageModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+        }
+    </script>
+
+</body>
+</html>
