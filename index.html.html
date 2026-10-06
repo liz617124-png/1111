@@ -1,135 +1,772 @@
 <!DOCTYPE html>
-<html lang="zh-TW" class="h-full">
+<html lang="zh-TW" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>極簡黑白設計師名片 - 全新排版</title>
-    <!-- Load Tailwind CSS -->
+    <title>吉卜力風設計美學｜宮崎駿風格作品集</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ghibli: {
+                            dark: '#1b2a26',
+                            green: '#2d4a3e',
+                            sage: '#5a7c6f',
+                            light: '#f4f1ea',
+                            accent: '#d4a373',
+                            sky: '#7395ae',
+                            gold: '#e9c46a'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Noto Serif TC"', 'serif'],
+                        motto: ['"Zen Maru Gothic"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background-color: #f4f1ea;
+            color: #1b2a26;
         }
-        .card-hover {
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+        /* 講義新功能：微風與鏡頭對焦模糊轉清晰特效 (Blur to Clear Lens Focus) */
+        .lens-focus-img {
+            filter: blur(6px) brightness(0.9);
+            transform: scale(1.05);
+            transition: filter 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .card-hover:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 25px 50px -12px rgba(255, 255, 255, 0.08), 0 0 30px rgba(0, 0, 0, 0.9);
+        .ghibli-card:hover .lens-focus-img {
+            filter: blur(0px) brightness(1.02);
+            transform: scale(1.12);
+        }
+
+        /* 講義新功能：Hover 雙重變化 (色彩覆層 + 文字揭示) */
+        .hover-overlay {
+            background: linear-gradient(to top, rgba(27, 42, 38, 0.85) 0%, rgba(45, 74, 62, 0.4) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .ghibli-card:hover .hover-overlay {
+            opacity: 1;
+        }
+
+        .hover-text-reveal {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .ghibli-card:hover .hover-text-reveal {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .ghibli-card {
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-style: preserve-3d;
+            perspective: 1200px;
+        }
+        .ghibli-card:hover {
+            transform: translateY(-12px) rotateX(2deg) rotateY(-2deg) scale(1.02);
+            box-shadow: 0 30px 45px -15px rgba(27, 42, 38, 0.3);
+        }
+
+        @keyframes heroIn {
+            0% { opacity: 0; transform: scale(1.1) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .hero-animate {
+            animation: heroIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f4f1ea;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #5a7c6f;
+            border-radius: 4px;
         }
     </style>
 </head>
-<body class="h-full bg-neutral-950 text-neutral-100 flex items-center justify-center p-4 selection:bg-white selection:text-black">
+<body class="bg-ghibli-light text-ghibli-dark selection:bg-ghibli-accent selection:text-white">
 
-    <main class="w-full max-w-lg mx-auto">
-        
-        <!-- Business Card Container with Refined Split Layout -->
-        <div class="card-hover bg-black border border-neutral-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden group">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#f4f1ea]/90 backdrop-blur-md border-b border-ghibli-sage/20 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#home" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-ghibli-green flex items-center justify-center text-ghibli-light shadow-md group-hover:rotate-12 transition-transform">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <span class="font-serif font-bold text-xl tracking-wider text-ghibli-green">吉卜力美學視界</span>
+            </a>
             
-            <!-- Subtle background accent element -->
-            <div class="absolute -right-20 -top-20 w-48 h-48 bg-neutral-900 rounded-full blur-3xl group-hover:bg-neutral-800 transition-colors duration-500 pointer-events-none"></div>
+            <nav class="hidden md:flex items-center gap-8 font-medium">
+                <a href="#home" class="nav-link text-ghibli-green border-b-2 border-ghibli-green pb-1 transition-colors">首頁</a>
+                <a href="#about" class="nav-link text-ghibli-dark/80 hover:text-ghibli-green pb-1 transition-colors">關於設計師</a>
+                <a href="#portfolio" class="nav-link text-ghibli-dark/80 hover:text-ghibli-green pb-1 transition-colors">作品展示 (Gallery)</a>
+                <a href="#contact" class="nav-link text-ghibli-dark/80 hover:text-ghibli-green pb-1 transition-colors">聯絡方式</a>
+            </nav>
 
-            <!-- Card Content Wrapper: Modern Horizontal & Vertical Grid for Dynamic Layout -->
-            <div class="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6 sm:gap-8">
-                
-                <!-- Left Column: Avatar & Status -->
-                <div class="flex-shrink-0 flex flex-col items-center">
-                    <div class="relative mb-3">
-                        <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-neutral-900 border border-neutral-700 flex items-center justify-center shadow-inner overflow-hidden group/avatar">
-                            <!-- Monogram -->
-                            <span class="text-3xl sm:text-4xl font-light tracking-widest text-neutral-200 group-hover/avatar:scale-110 transition-transform duration-300">李</span>
+            <div class="hidden md:flex items-center gap-3">
+                <button onclick="openFullscreenGallery()" class="px-4 py-2 rounded-full bg-ghibli-sky/20 text-ghibli-green hover:bg-ghibli-sky/30 transition-colors font-medium text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-expand"></i> 全螢幕藝廊
+                </button>
+                <a href="#contact" class="px-5 py-2 rounded-full bg-ghibli-green text-ghibli-light hover:bg-ghibli-sage transition-colors shadow-sm font-medium text-sm">
+                    委託合作
+                </a>
+            </div>
+
+            <button id="menu-btn" class="md:hidden text-2xl text-ghibli-green focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-[#f4f1ea] border-b border-ghibli-sage/20 px-4 pt-2 pb-6 space-y-3">
+            <a href="#home" class="block py-2 text-ghibli-green font-medium mobile-link">首頁</a>
+            <a href="#about" class="block py-2 text-ghibli-green font-medium mobile-link">關於設計師</a>
+            <a href="#portfolio" class="block py-2 text-ghibli-green font-medium mobile-link">作品展示</a>
+            <a href="#contact" class="block py-2 text-ghibli-green font-medium mobile-link">聯絡方式</a>
+        </div>
+    </header>
+
+    <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-gradient-to-b from-[#e3ede8] to-[#f4f1ea]">
+        <div class="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-ghibli-sage/10 blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-ghibli-gold/10 blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center relative z-10 hero-animate">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ghibli-sage/15 text-ghibli-green text-sm font-medium mb-6">
+                <i class="fa-solid fa-sparkles"></i> 互動攝影作品集特展：探索魔法與自然的視覺共鳴
+            </div>
+            <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold text-ghibli-green mb-6 leading-tight">
+                風的迴響，<br>構築溫暖人心的視覺世界
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg sm:text-xl text-ghibli-dark/80 mb-10 font-motto">
+                融合宮崎駿動畫中手繪的溫潤質地、奇幻自然的色彩哲學，為您的品牌與專案注入會呼吸的生命力。
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#portfolio" class="w-full sm:w-auto px-8 py-4 rounded-full bg-ghibli-green text-ghibli-light hover:bg-ghibli-sage transition-all shadow-lg font-medium flex items-center justify-center gap-2 transform hover:scale-105">
+                    瀏覽作品集 (Gallery) <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <button onclick="openFullscreenGallery()" class="w-full sm:w-auto px-8 py-4 rounded-full border-2 border-ghibli-green text-ghibli-green hover:bg-ghibli-green hover:text-ghibli-light transition-all font-medium flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-expand"></i> 進入全螢幕沉浸藝廊
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 max-w-4xl mx-auto">
+                <div class="p-6 rounded-2xl bg-white/60 backdrop-blur border border-ghibli-sage/10 text-center shadow-sm transition-transform hover:-translate-y-2">
+                    <div class="text-3xl text-ghibli-green mb-2"><i class="fa-solid fa-camera-retro"></i></div>
+                    <h3 class="font-bold text-ghibli-dark">鏡頭對焦特效</h3>
+                    <p class="text-sm text-ghibli-dark/70 mt-1">講義精選 Blur 互動</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-white/60 backdrop-blur border border-ghibli-sage/10 text-center shadow-sm transition-transform hover:-translate-y-2">
+                    <div class="text-3xl text-ghibli-green mb-2"><i class="fa-solid fa-seedling"></i></div>
+                    <h3 class="font-bold text-ghibli-dark">自然美學</h3>
+                    <p class="text-sm text-ghibli-dark/70 mt-1">森系大地色彩美學</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-white/60 backdrop-blur border border-ghibli-sage/10 text-center shadow-sm transition-transform hover:-translate-y-2">
+                    <div class="text-3xl text-ghibli-green mb-2"><i class="fa-solid fa-compass-drafting"></i></div>
+                    <h3 class="font-bold text-ghibli-dark">品牌視覺</h3>
+                    <p class="text-sm text-ghibli-dark/70 mt-1">故事性品牌識別</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-white/60 backdrop-blur border border-ghibli-sage/10 text-center shadow-sm transition-transform hover:-translate-y-2">
+                    <div class="text-3xl text-ghibli-green mb-2"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h3 class="font-bold text-ghibli-dark">奇幻互動</h3>
+                    <p class="text-sm text-ghibli-dark/70 mt-1">沉浸式數位體驗</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 relative">
+                    <div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-ghibli-sage/20 relative">
+                        <img src="https://placehold.co/600x750/2d4a3e/f4f1ea?text=Ghibli+Aesthetic+Designer" alt="設計師肖像" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-ghibli-dark/60 via-transparent to-transparent flex items-end p-8">
+                            <div class="text-white">
+                                <p class="font-serif text-lg font-bold">「在風裡歌唱，在森林裡作畫。」</p>
+                                <p class="text-sm text-ghibli-light/80 mt-1">—— 首席視覺藝術總監</p>
+                            </div>
                         </div>
-                        <!-- Status Indicator Dot -->
-                        <span class="absolute bottom-1 right-1 w-3.5 h-3.5 bg-white border-2 border-black rounded-full animate-pulse" title="目前可接案"></span>
                     </div>
-                    <span class="text-[10px] tracking-widest uppercase text-neutral-500 font-medium">Available</span>
+                </div>
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-ghibli-green/10 text-ghibli-green text-sm font-medium">
+                        <i class="fa-solid fa-user-pen"></i> 關於設計師 (About)
+                    </div>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-ghibli-green leading-tight">
+                        用設計捕捉風的形狀、雲的流動與童年的純粹。
+                    </h2>
+                    <p class="text-ghibli-dark/80 text-lg leading-relaxed">
+                        哈囉！我是主理這座森林工坊的視覺設計師。深受吉卜力工作室（Studio Ghibli）動畫作品啟發，我相信每一個設計背後都應該有一個屬於它的「靈魂與故事」。
+                    </p>
+                    <p class="text-ghibli-dark/80 leading-relaxed">
+                        我們擅長運用大自然的色調、溫潤的字體排印（Typography）以及充滿童話感的插畫構圖，打破冰冷現代設計的框架，創造出能觸動人心、讓人嘴角上揚的獨特作品。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="py-24 bg-[#edf2ef]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-ghibli-green/10 text-ghibli-green text-sm font-medium mb-4">
+                    <i class="fa-solid fa-film"></i> 經典作品藝廊 (Gallery) - 講義互動特仕版
+                </div>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-ghibli-green mb-4">
+                    探索 6 大奇幻視覺專案
+                </h2>
+                <p class="text-ghibli-dark/70">
+                    導入課堂講義之「鏡頭對焦模糊轉清晰」與「雙重懸停覆色互動」，點擊卡片可開啟詳細 Lightbox 燈箱。
+                </p>
+
+                <!-- Category Filters -->
+                <div class="flex flex-wrap items-center justify-center gap-3 mt-8">
+                    <button onclick="filterWorks('all')" class="category-btn active px-5 py-2.5 rounded-full bg-ghibli-green text-ghibli-light font-medium text-sm transition-all shadow-sm hover:bg-ghibli-sage">
+                        全部 (All)
+                    </button>
+                    <button onclick="filterWorks('portrait')" class="category-btn px-5 py-2.5 rounded-full bg-white text-ghibli-green font-medium text-sm transition-all shadow-sm hover:bg-ghibli-green hover:text-ghibli-light border border-ghibli-sage/20">
+                        人像與青春 (Portrait)
+                    </button>
+                    <button onclick="filterWorks('landscape')" class="category-btn px-5 py-2.5 rounded-full bg-white text-ghibli-green font-medium text-sm transition-all shadow-sm hover:bg-ghibli-green hover:text-ghibli-light border border-ghibli-sage/20">
+                        風景與自然 (Landscape)
+                    </button>
+                    <button onclick="filterWorks('commercial')" class="category-btn px-5 py-2.5 rounded-full bg-white text-ghibli-green font-medium text-sm transition-all shadow-sm hover:bg-ghibli-green hover:text-ghibli-light border border-ghibli-sage/20">
+                        商業與限定 (Commercial)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Works Grid -->
+            <div id="works-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- 作品 1 -->
+                <div class="work-item ghibli-card bg-white rounded-3xl p-6 border border-ghibli-sage/20 flex flex-col shadow-xl" data-category="portrait">
+                    <div class="aspect-[4/3] overflow-hidden rounded-2xl relative group shadow-md mb-6 bg-ghibli-dark cursor-pointer" onclick="openDetailModal(1)">
+                        <img src="w280.jpg" alt="心之谷" class="w-full h-full object-cover lens-focus-img">
+                        <!-- 講義互動：色彩覆層與文字揭示 -->
+                        <div class="absolute inset-0 hover-overlay flex flex-col justify-end p-6 z-10">
+                            <span class="text-ghibli-gold text-xs font-bold uppercase tracking-wider mb-1 hover-text-reveal">✨ 互動鏡頭對焦專案</span>
+                            <h4 class="text-white font-serif text-lg font-bold hover-text-reveal">點擊檢視詳細解說</h4>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-ghibli-accent text-white px-3.5 py-1.5 rounded-full text-xs font-bold shadow-md z-20">
+                            Portrait / 人像青春
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <span class="text-xs text-ghibli-sage font-medium tracking-wider mb-1">1995 · 近藤喜文 作品 / 宮崎駿 監製</span>
+                        <h3 class="font-serif text-2xl font-bold text-ghibli-green mb-2">《心之谷》Whisper of the Heart</h3>
+                        <p class="text-ghibli-dark/70 text-sm mb-6 flex-grow leading-relaxed">
+                            描繪對未來夢想的執著與青春期的青澀悸動。以貓男爵與地球屋的奇幻視角，構築溫暖而堅定的品牌設計精神。
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-ghibli-sage/10">
+                            <span class="text-xs text-ghibli-sage font-medium">創作年份: 1995</span>
+                            <button onclick="openDetailModal(1)" class="text-ghibli-green hover:underline flex items-center gap-1 font-bold text-sm">
+                                詳細資訊 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Right Column: Info, Bio & Actions -->
-                <div class="flex-1 text-center sm:text-left flex flex-col justify-between">
-                    <div>
-                        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between mb-1">
-                            <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-                                李致良
-                            </h1>
-                            <span class="text-xs font-mono text-neutral-500 mt-1 sm:mt-0">ID: 0019-Z</span>
+                <!-- 作品 2 -->
+                <div class="work-item ghibli-card bg-white rounded-3xl p-6 border border-ghibli-sage/20 flex flex-col shadow-xl" data-category="landscape">
+                    <div class="aspect-[4/3] overflow-hidden rounded-2xl relative group shadow-md mb-6 bg-ghibli-dark cursor-pointer" onclick="openDetailModal(2)">
+                        <img src="81743.jpg" alt="紅豬" class="w-full h-full object-cover lens-focus-img">
+                        <div class="absolute inset-0 hover-overlay flex flex-col justify-end p-6 z-10">
+                            <span class="text-ghibli-gold text-xs font-bold uppercase tracking-wider mb-1 hover-text-reveal">✨ 互動鏡頭對焦專案</span>
+                            <h4 class="text-white font-serif text-lg font-bold hover-text-reveal">點擊檢視詳細解說</h4>
                         </div>
-                        
-                        <p class="text-xs sm:text-sm font-medium tracking-widest uppercase text-neutral-400 mb-4">
-                            資深 UI/UX 設計師與創作者
-                        </p>
-
-                        <!-- Short Bio -->
-                        <p class="text-xs sm:text-sm text-neutral-400 font-light leading-relaxed mb-6">
-                            專注於極簡數位體驗，結合高視覺衝擊力與嚴謹細緻的工藝美學。
-                        </p>
+                        <div class="absolute top-4 left-4 bg-red-600 text-white px-3.5 py-1.5 rounded-full text-xs font-bold shadow-md z-20">
+                            Landscape / 飛行風景
+                        </div>
                     </div>
-
-                    <div class="w-full space-y-3">
-                        <button onclick="handleContactClick()" class="w-full py-3 px-6 rounded-xl bg-white text-black font-semibold text-sm tracking-wide hover:bg-neutral-200 active:scale-[0.98] transition-all duration-200 shadow-lg shadow-white/5 flex items-center justify-center space-x-2">
-                            <span>與我聯繫</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </button>
+                    <div class="flex flex-col flex-grow">
+                        <span class="text-xs text-ghibli-sage font-medium tracking-wider mb-1">1992 · 宮崎駿 導演</span>
+                        <h3 class="font-serif text-2xl font-bold text-ghibli-green mb-2">《紅豬》Porco Rosso 數位紀念版</h3>
+                        <p class="text-ghibli-dark/70 text-sm mb-6 flex-grow leading-relaxed">
+                            亞得里亞海上的自由飛行者，伴隨機械引擎與藍天白雲，展現出浪漫不羈的紳士靈魂與復古航空美學。
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-ghibli-sage/10">
+                            <span class="text-xs text-ghibli-sage font-medium">創作年份: 1992</span>
+                            <button onclick="openDetailModal(2)" class="text-ghibli-green hover:underline flex items-center gap-1 font-bold text-sm">
+                                詳細資訊 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- Footer Social Links -->
-                    <div class="mt-6 pt-4 border-t border-neutral-900 w-full flex justify-center sm:justify-start space-x-6 text-neutral-500 text-xs tracking-wider">
-                        <a href="#behance" onclick="triggerNotice(event, 'Behance 個人作品集')" class="hover:text-white transition-colors">Behance</a>
-                        <a href="#dribbble" onclick="triggerNotice(event, 'Dribbble 設計專頁')" class="hover:text-white transition-colors">Dribbble</a>
-                        <a href="#twitter" onclick="triggerNotice(event, 'Twitter / X 平台')" class="hover:text-white transition-colors">Twitter</a>
+                <!-- 作品 3 -->
+                <div class="work-item ghibli-card bg-white rounded-3xl p-6 border border-ghibli-sage/20 flex flex-col shadow-xl" data-category="commercial">
+                    <div class="aspect-[4/3] overflow-hidden rounded-2xl relative group shadow-md mb-6 bg-ghibli-dark cursor-pointer" onclick="openDetailModal(3)">
+                        <img src="【神隱少女】海報2022.06-1120x1600.jpg" alt="神隱少女" class="w-full h-full object-cover lens-focus-img">
+                        <div class="absolute inset-0 hover-overlay flex flex-col justify-end p-6 z-10">
+                            <span class="text-ghibli-gold text-xs font-bold uppercase tracking-wider mb-1 hover-text-reveal">✨ 互動鏡頭對焦專案</span>
+                            <h4 class="text-white font-serif text-lg font-bold hover-text-reveal">點擊檢視詳細解說</h4>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-ghibli-gold text-ghibli-dark px-3.5 py-1.5 rounded-full text-xs font-bold shadow-md z-20">
+                            Commercial / 奇幻殿堂
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <span class="text-xs text-ghibli-sage font-medium tracking-wider mb-1">2001 · 宮崎駿 導演</span>
+                        <h3 class="font-serif text-2xl font-bold text-ghibli-green mb-2">《神隱少女》油屋幻境視覺集</h3>
+                        <p class="text-ghibli-dark/70 text-sm mb-6 flex-grow leading-relaxed">
+                            探討成長、貪婪與自我尋找的奇幻史詩。油屋華麗的燈籠紅牆與神靈街市，化作現代東方美學設計的靈感泉源。
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-ghibli-sage/10">
+                            <span class="text-xs text-ghibli-sage font-medium">創作年份: 2001</span>
+                            <button onclick="openDetailModal(3)" class="text-ghibli-green hover:underline flex items-center gap-1 font-bold text-sm">
+                                詳細資訊 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 作品 4 -->
+                <div class="work-item ghibli-card bg-white rounded-3xl p-6 border border-ghibli-sage/20 flex flex-col shadow-xl" data-category="landscape">
+                    <div class="aspect-[4/3] overflow-hidden rounded-2xl relative group shadow-md mb-6 bg-ghibli-dark cursor-pointer" onclick="openDetailModal(4)">
+                        <img src="nova-135dc890-0a9d-460d-8212-921c7f2d9275.jpg" alt="天空之城" class="w-full h-full object-cover lens-focus-img">
+                        <div class="absolute inset-0 hover-overlay flex flex-col justify-end p-6 z-10">
+                            <span class="text-ghibli-gold text-xs font-bold uppercase tracking-wider mb-1 hover-text-reveal">✨ 互動鏡頭對焦專案</span>
+                            <h4 class="text-white font-serif text-lg font-bold hover-text-reveal">點擊檢視詳細解說</h4>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-ghibli-sky text-white px-3.5 py-1.5 rounded-full text-xs font-bold shadow-md z-20">
+                            Landscape / 天空冒險
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <span class="text-xs text-ghibli-sage font-medium tracking-wider mb-1">1986 · 宮崎駿 導演</span>
+                        <h3 class="font-serif text-2xl font-bold text-ghibli-green mb-2">《天空之城》拉普達失落文明</h3>
+                        <p class="text-ghibli-dark/70 text-sm mb-6 flex-grow leading-relaxed">
+                            飛行船、巨大的浮島遺跡與飛行石的湛藍光芒，喚醒人類對於浩瀚天際與未知探險的浪漫憧憬。
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-ghibli-sage/10">
+                            <span class="text-xs text-ghibli-sage font-medium">創作年份: 1986</span>
+                            <button onclick="openDetailModal(4)" class="text-ghibli-green hover:underline flex items-center gap-1 font-bold text-sm">
+                                詳細資訊 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 作品 5 -->
+                <div class="work-item ghibli-card bg-white rounded-3xl p-6 border border-ghibli-sage/20 flex flex-col shadow-xl" data-category="commercial">
+                    <div class="aspect-[4/3] overflow-hidden rounded-2xl relative group shadow-md mb-6 bg-ghibli-dark cursor-pointer" onclick="openDetailModal(5)">
+                        <img src="吉卜力新作短編動畫《魔女之谷的夜》-7月8日起於吉卜力公園限定上映封面1_0.jpg" alt="魔女之谷的夜" class="w-full h-full object-cover lens-focus-img">
+                        <div class="absolute inset-0 hover-overlay flex flex-col justify-end p-6 z-10">
+                            <span class="text-ghibli-gold text-xs font-bold uppercase tracking-wider mb-1 hover-text-reveal">✨ 互動鏡頭對焦專案</span>
+                            <h4 class="text-white font-serif text-lg font-bold hover-text-reveal">點擊檢視詳細解說</h4>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-ghibli-green text-ghibli-light px-3.5 py-1.5 rounded-full text-xs font-bold shadow-md z-20">
+                            Commercial / 限定企劃
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <span class="text-xs text-ghibli-sage font-medium tracking-wider mb-1">吉卜力公園限定短編</span>
+                        <h3 class="font-serif text-2xl font-bold text-ghibli-green mb-2">《魔女之谷的夜》限定視覺</h3>
+                        <p class="text-ghibli-dark/70 text-sm mb-6 flex-grow leading-relaxed">
+                            充滿童話神祕色彩與夜間燈火的魔女之谷。展現新世代吉卜力手繪動畫在夜景燈光與奇幻氛圍上的創新表現。
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-ghibli-sage/10">
+                            <span class="text-xs text-ghibli-sage font-medium">創作年份: 2024</span>
+                            <button onclick="openDetailModal(5)" class="text-ghibli-green hover:underline flex items-center gap-1 font-bold text-sm">
+                                詳細資訊 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 作品 6 -->
+                <div class="work-item ghibli-card bg-white rounded-3xl p-6 border border-ghibli-sage/20 flex flex-col shadow-xl" data-category="portrait">
+                    <div class="aspect-[4/3] overflow-hidden rounded-2xl relative group shadow-md mb-6 bg-ghibli-dark cursor-pointer" onclick="openDetailModal(6)">
+                        <img src="https://placehold.co/800x600/5a7c6f/f4f1ea?text=My+Neighbor+Totoro" alt="龍貓" class="w-full h-full object-cover lens-focus-img">
+                        <div class="absolute inset-0 hover-overlay flex flex-col justify-end p-6 z-10">
+                            <span class="text-ghibli-gold text-xs font-bold uppercase tracking-wider mb-1 hover-text-reveal">✨ 互動鏡頭對焦專案</span>
+                            <h4 class="text-white font-serif text-lg font-bold hover-text-reveal">點擊檢視詳細解說</h4>
+                        </div>
+                        <div class="absolute top-4 left-4 bg-ghibli-sage text-white px-3.5 py-1.5 rounded-full text-xs font-bold shadow-md z-20">
+                            Portrait / 童年森林
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-grow">
+                        <span class="text-xs text-ghibli-sage font-medium tracking-wider mb-1">1988 · 宮崎駿 導演</span>
+                        <h3 class="font-serif text-2xl font-bold text-ghibli-green mb-2">《龍貓》森林中的微風童話</h3>
+                        <p class="text-ghibli-dark/70 text-sm mb-6 flex-grow leading-relaxed">
+                            鄉間田野的純真笑聲、巨大的毛絨森林守護者。本專案以自然綠意與童趣線條，打造療癒人心的品牌視覺系統。
+                        </p>
+                        <div class="flex items-center justify-between pt-4 border-t border-ghibli-sage/10">
+                            <span class="text-xs text-ghibli-sage font-medium">創作年份: 1988</span>
+                            <button onclick="openDetailModal(6)" class="text-ghibli-green hover:underline flex items-center gap-1 font-bold text-sm">
+                                詳細資訊 <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
             </div>
         </div>
-    </main>
+    </section>
 
-    <!-- Custom Modal Message Box (replacing alert()) -->
-    <div id="messageModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
-        <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 max-w-sm w-full mx-4 shadow-2xl transform scale-95 transition-transform duration-300" id="modalContent">
-            <h3 class="text-lg font-semibold text-white mb-2" id="modalTitle">通知</h3>
-            <p class="text-sm text-neutral-400 mb-6" id="modalText">訊息內容。</p>
-            <button onclick="closeModal()" class="w-full py-2.5 rounded-lg bg-neutral-800 text-white font-medium text-sm hover:bg-neutral-700 transition-colors">
-                關閉
+    <section id="contact" class="py-24 bg-[#edf2ef] relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <div class="lg:col-span-5 space-y-8">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-ghibli-green/10 text-ghibli-green text-sm font-medium mb-4">
+                            <i class="fa-solid fa-envelope-open-text"></i> 聯絡資訊 (Contact)
+                        </div>
+                        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-ghibli-green mb-4">
+                            讓我們一起寫下您的下一個奇幻故事
+                        </h2>
+                        <p class="text-ghibli-dark/85 text-lg">
+                            無論是品牌識別委託、插畫合作，或是任何充滿想象力的設計邀約，我們的森林工作室隨時歡迎您的到來！
+                        </p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-ghibli-green/10 text-ghibli-green flex items-center justify-center text-xl flex-shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-ghibli-dark">工作室地址</h4>
+                                <p class="text-ghibli-dark/70 text-sm mt-0.5">臺灣·充滿橡果與微風的綠意山丘 400 號</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-2xl bg-ghibli-green/10 text-ghibli-green flex items-center justify-center text-xl flex-shrink-0">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-ghibli-dark">電子信箱</h4>
+                                <p class="text-ghibli-dark/70 text-sm mt-0.5">hello@ghibli-design.forest</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7">
+                    <div class="bg-white p-8 sm:p-10 rounded-3xl border border-ghibli-sage/25 shadow-xl">
+                        <h3 class="font-serif text-2xl font-bold text-ghibli-green mb-6">發送您的設計委託</h3>
+                        <form onsubmit="handleFormSubmit(event)" class="space-y-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-ghibli-dark mb-2">您的稱呼</label>
+                                    <input type="text" required class="w-full px-4 py-3 rounded-xl bg-ghibli-light border border-ghibli-sage/30 focus:outline-none focus:border-ghibli-green text-ghibli-dark" placeholder="例如：龍貓先生">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-ghibli-dark mb-2">電子信箱</label>
+                                    <input type="email" required class="w-full px-4 py-3 rounded-xl bg-ghibli-light border border-ghibli-sage/30 focus:outline-none focus:border-ghibli-green text-ghibli-dark" placeholder="name@example.com">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-ghibli-dark mb-2">專案類型</label>
+                                <select class="w-full px-4 py-3 rounded-xl bg-ghibli-light border border-ghibli-sage/30 focus:outline-none focus:border-ghibli-green text-ghibli-dark">
+                                    <option>品牌識別與視覺系統</option>
+                                    <option>奇幻插畫與繪本創作</option>
+                                    <option>網站 UI/UX 與數位體驗</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-ghibli-dark mb-2">專案需求描述</label>
+                                <textarea rows="4" required class="w-full px-4 py-3 rounded-xl bg-ghibli-light border border-ghibli-sage/30 focus:outline-none focus:border-ghibli-green text-ghibli-dark" placeholder="請簡單描述您的品牌理念..."></textarea>
+                            </div>
+                            <button type="submit" class="w-full py-4 rounded-xl bg-ghibli-green text-ghibli-light font-medium hover:bg-ghibli-sage transition-colors shadow-md flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i> 送出委託訊息
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-ghibli-dark text-ghibli-light/80 py-12 border-t border-ghibli-sage/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-ghibli-green flex items-center justify-center text-ghibli-light">
+                    <i class="fa-solid fa-leaf text-sm"></i>
+                </div>
+                <span class="font-serif font-bold text-lg text-white">吉卜力美學視界 Studio Ghibli Design Portfolio</span>
+            </div>
+            <p class="text-sm">
+                &copy; 2026 Portfolio Homework. All rights reserved. 結合課堂講義互動特效與自然美學。
+            </p>
+        </div>
+    </footer>
+
+    <div id="project-detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 backdrop-blur-md p-4 overflow-y-auto">
+        <div class="bg-ghibli-light w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl relative my-8 animate-in fade-in zoom-in duration-300">
+            <button onclick="closeDetailModal()" class="absolute top-6 right-6 w-12 h-12 rounded-full bg-ghibli-green text-ghibli-light flex items-center justify-center hover:bg-ghibli-sage transition-colors z-20 shadow-lg">
+                <i class="fa-solid fa-xmark text-xl"></i>
             </button>
+            <div class="p-8 sm:p-12 space-y-8">
+                <div class="flex flex-wrap items-center gap-3">
+                    <span id="modal-category" class="px-3.5 py-1.5 rounded-full bg-ghibli-green text-ghibli-light text-xs font-bold">專案類別</span>
+                    <span id="modal-date" class="text-sm text-ghibli-sage font-medium">創作日期: 2026</span>
+                </div>
+                
+                <h2 id="modal-title" class="font-serif text-3xl sm:text-4xl font-bold text-ghibli-green">專案標題</h2>
+                
+                <div class="aspect-[16/9] rounded-2xl overflow-hidden shadow-lg bg-ghibli-dark">
+                    <img id="modal-img" src="" alt="作品大圖" class="w-full h-full object-cover">
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">
+                    <div class="md:col-span-2 space-y-4">
+                        <h4 class="font-serif text-xl font-bold text-ghibli-green">專案簡介與背景</h4>
+                        <p id="modal-desc" class="text-ghibli-dark/85 leading-relaxed text-base">專案完整描述...</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-ghibli-sage/20 space-y-4 shadow-sm">
+                        <h4 class="font-serif text-lg font-bold text-ghibli-green"><i class="fa-solid fa-lightbulb text-ghibli-gold"></i> 講義互動亮點</h4>
+                        <p id="modal-concept" class="text-sm text-ghibli-dark/75 leading-relaxed">
+                            結合課堂講義之「鏡頭對焦模糊轉清晰」特效與雙重懸停覆色，讓觀眾在沉浸自然的同時享受流暢互動。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="pt-6 border-t border-ghibli-sage/20 flex items-center justify-between">
+                    <button onclick="prevProject()" class="px-5 py-2.5 rounded-full bg-ghibli-sage/20 text-ghibli-green hover:bg-ghibli-sage/30 transition-colors font-medium text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> 上一個作品
+                    </button>
+                    <button onclick="nextProject()" class="px-5 py-2.5 rounded-full bg-ghibli-green text-ghibli-light hover:bg-ghibli-sage transition-colors font-medium text-sm flex items-center gap-2">
+                        下一個作品 <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div id="fullscreen-gallery" class="fixed inset-0 z-50 hidden bg-black/95 text-white flex flex-col items-center justify-center p-6">
+        <button onclick="closeFullscreenGallery()" class="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-2xl transition-colors">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="absolute top-6 left-6 text-sm text-white/70 font-mono">
+            FULLSCREEN EXPERIENCE (ESC to exit, ← → to navigate)
+        </div>
+
+        <div class="max-w-5xl w-full flex flex-col items-center space-y-6 text-center">
+            <div class="aspect-[16/9] max-h-[60vh] rounded-2xl overflow-hidden shadow-2xl bg-neutral-900 border border-white/10">
+                <img id="fs-img" src="" alt="全螢幕作品" class="w-full h-full object-contain">
+            </div>
+            <div>
+                <h3 id="fs-title" class="font-serif text-3xl font-bold mb-2">作品名稱</h3>
+                <p id="fs-desc" class="text-white/70 max-w-xl mx-auto text-sm">作品描述</p>
+            </div>
+            <div class="flex items-center gap-6 pt-4">
+                <button onclick="fsPrev()" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors font-medium flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> 上一張
+                </button>
+                <button onclick="fsNext()" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors font-medium flex items-center gap-2">
+                    下一張 <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-message" class="fixed bottom-6 right-6 z-50 hidden bg-ghibli-green text-ghibli-light px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3 border border-ghibli-sage/50">
+        <i class="fa-solid fa-circle-check text-ghibli-gold text-lg"></i>
+        <span id="toast-text">訊息已成功送出！</span>
+    </div>
+
     <script>
-        // Handle Contact button click
-        function handleContactClick() {
-            showModal('與我聯繫', '感謝您的關注！您可以透過電子郵件直接與我聯繫：zhiliang.li@minimaldesign.studio');
+        const worksData = [
+            {
+                id: 1,
+                title: "《心之谷》Whisper of the Heart",
+                category: "Portrait / 人像青春",
+                catKey: "portrait",
+                date: "1995 年 7 月 15 日",
+                img: "w280.jpg",
+                desc: "描繪對未來夢想的執著與青春期的青澀悸動。以貓男爵與地球屋的奇幻視角，構築溫暖而堅定的品牌設計精神。",
+                concept: "結合青澀的青春對話與復古手作工藝，運用講義中的「模糊轉清晰」與色調覆層營造故事感。"
+            },
+            {
+                id: 2,
+                title: "《紅豬》Porco Rosso 數位紀念版",
+                category: "Landscape / 飛行風景",
+                catKey: "landscape",
+                date: "1992 年 7 月 18 日",
+                img: "81743.jpg",
+                desc: "亞得里亞海上的自由飛行者，伴隨機械引擎與藍天白雲，展現出浪漫不羈的紳士靈魂與復古航空美學。",
+                concept: "運用亞得里亞海湛藍與飛行機具紅，突顯自由不羈的浪漫情懷與復古質感。"
+            },
+            {
+                id: 3,
+                title: "《神隱少女》油屋幻境視覺集",
+                category: "Commercial / 奇幻殿堂",
+                catKey: "commercial",
+                date: "2001 年 7 月 20 日",
+                img: "【神隱少女】海報2022.06-1120x1600.jpg",
+                desc: "探討成長、貪婪與自我尋找的奇幻史詩。油屋華麗的燈籠紅牆與神靈街市，化作現代東方美學設計的靈感泉源。",
+                concept: "以朱紅色調與華麗神靈街市為基底，打造充滿東方神秘色彩的頂級視覺系統。"
+            },
+            {
+                id: 4,
+                title: "《天空之城》拉普達失落文明",
+                category: "Landscape / 天空冒險",
+                catKey: "landscape",
+                date: "1986 年 8 月 2 日",
+                img: "nova-135dc890-0a9d-460d-8212-921c7f2d9275.jpg",
+                desc: "飛行船、巨大的浮島遺跡與飛行石的湛藍光芒，喚醒人類對於浩瀚天際與未知探險的浪漫憧憬。",
+                concept: "以飛行石透藍與天空雲層為基調，設計出充滿科技感與手繪溫度的數位網頁體驗。"
+            },
+            {
+                id: 5,
+                title: "《魔女之谷的夜》限定視覺",
+                category: "Commercial / 限定企劃",
+                catKey: "commercial",
+                date: "2024 年 7 月限定",
+                img: "吉卜力新作短編動畫《魔女之谷的夜》-7月8日起於吉卜力公園限定上映封面1_0.jpg",
+                desc: "充滿童話神祕色彩與夜間燈火的魔女之谷。展現新世代吉卜力手繪動畫在夜景燈光與奇幻上的創新表現。",
+                concept: "運用深色夜幕與暖色路燈光暈，帶給觀者沉浸式的奇幻夜間冒險視覺感受。"
+            },
+            {
+                id: 6,
+                title: "《龍貓》森林中的微風童話",
+                category: "Portrait / 童年森林",
+                catKey: "portrait",
+                date: "1988 年 4 月 16 日",
+                img: "https://placehold.co/800x600/5a7c6f/f4f1ea?text=My+Neighbor+Totoro",
+                desc: "鄉間田野的純真笑聲、巨大的毛絨森林守護者。本專案以自然綠意與童趣線條，打造療癒人心的品牌視覺系統。",
+                concept: "透過大自然綠意與童趣插畫構圖，為當代品牌注入純真無邪的療癒力量。"
+            }
+        ];
+
+        let currentModalIndex = 0;
+        let currentFsIndex = 0;
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+        // Category Filtering Function with Smooth Animation
+        function filterWorks(category) {
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-ghibli-green', 'text-ghibli-light');
+                btn.classList.add('bg-white', 'text-ghibli-green');
+            });
+            event.target.classList.remove('bg-white', 'text-ghibli-green');
+            event.target.classList.add('bg-ghibli-green', 'text-ghibli-light');
+
+            const items = document.querySelectorAll('.work-item');
+            items.forEach(item => {
+                const cat = item.getAttribute('data-category');
+                if (category === 'all' || cat === category) {
+                    item.style.display = 'flex';
+                    item.style.animation = 'heroIn 0.5s ease forwards';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         }
 
-        // Handle social link clicks gracefully without standard alerts
-        function triggerNotice(event, platformName) {
-            event.preventDefault();
-            showModal('外部連結', '即將前往 ' + platformName + ' 預覽頁面。');
+        // Project Detail Modal (Lightbox & Detail view)
+        const detailModal = document.getElementById('project-detail-modal');
+        function openDetailModal(id) {
+            currentModalIndex = worksData.findIndex(w => w.id === id);
+            updateModalContent();
+            detailModal.classList.remove('hidden');
+            detailModal.classList.add('flex');
         }
 
-        // Modal Controller Functions
-        function showModal(title, text) {
-            const modal = document.getElementById('messageModal');
-            const modalContent = document.getElementById('modalContent');
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalText').textContent = text;
-            
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modalContent.classList.remove('scale-95');
-            modalContent.classList.add('scale-100');
+        function closeDetailModal() {
+            detailModal.classList.remove('flex');
+            detailModal.classList.add('hidden');
         }
 
-        function closeModal() {
-            const modal = document.getElementById('messageModal');
-            const modalContent = document.getElementById('modalContent');
-            
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modalContent.classList.remove('scale-100');
-            modalContent.classList.add('scale-95');
+        function updateModalContent() {
+            const work = worksData[currentModalIndex];
+            document.getElementById('modal-title').textContent = work.title;
+            document.getElementById('modal-category').textContent = work.category;
+            document.getElementById('modal-date').textContent = "創作日期: " + work.date;
+            document.getElementById('modal-img').src = work.img;
+            document.getElementById('modal-desc').textContent = work.desc;
+            document.getElementById('modal-concept').textContent = work.concept;
+        }
+
+        function prevProject() {
+            currentModalIndex = (currentModalIndex - 1 + worksData.length) % worksData.length;
+            updateModalContent();
+        }
+
+        function nextProject() {
+            currentModalIndex = (currentModalIndex + 1) % worksData.length;
+            updateModalContent();
+        }
+
+        // Fullscreen Gallery
+        const fsGallery = document.getElementById('fullscreen-gallery');
+        function openFullscreenGallery() {
+            currentFsIndex = 0;
+            updateFsContent();
+            fsGallery.classList.remove('hidden');
+            fsGallery.classList.add('flex');
+        }
+
+        function closeFullscreenGallery() {
+            fsGallery.classList.remove('flex');
+            fsGallery.classList.add('hidden');
+        }
+
+        function updateFsContent() {
+            const work = worksData[currentFsIndex];
+            document.getElementById('fs-title').textContent = work.title;
+            document.getElementById('fs-desc').textContent = work.desc;
+            document.getElementById('fs-img').src = work.img;
+        }
+
+        function fsPrev() {
+            currentFsIndex = (currentFsIndex - 1 + worksData.length) % worksData.length;
+            updateFsContent();
+        }
+
+        function fsNext() {
+            currentFsIndex = (currentFsIndex + 1) % worksData.length;
+            updateFsContent();
+        }
+
+        // Keyboard navigation for Fullscreen
+        window.addEventListener('keydown', (e) => {
+            if (!fsGallery.classList.contains('hidden')) {
+                if (e.key === 'ArrowLeft') fsPrev();
+                if (e.key === 'ArrowRight') fsNext();
+                if (e.key === 'Escape') closeFullscreenGallery();
+            }
+        });
+
+        // Contact form submission
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const toast = document.getElementById('toast-message');
+            document.getElementById('toast-text').textContent = '委託訊息已成功寄出！森林精靈會盡快回覆您。';
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 4000);
+            e.target.reset();
         }
     </script>
-
 </body>
 </html>
